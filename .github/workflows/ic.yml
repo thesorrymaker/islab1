@@ -52,4 +52,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: snyk-report
-          path: snyk-report.html
+          path: snyk-report.json

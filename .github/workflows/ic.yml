@@ -21,7 +21,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Maven (lab1 only)
-        working-directory: ./islab1
+        working-directory: ./
         run: mvn clean package -DskipTests
 
       - name: Upload artifact for deployment job
@@ -31,7 +31,6 @@ jobs:
           path: '${{ github.workspace }}/target/*.jar'
 
       - name: Run SpotBugs (SAST) for islab1
-        working-directory: ./lab1
         run: mvn spotbugs:spotbugs
 
       - name: Upload SpotBugs report

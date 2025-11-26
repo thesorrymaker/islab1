@@ -41,7 +41,7 @@ jobs:
       - name: Set up Snyk
         uses: snyk/actions/setup@master
         with:
-          version: '1.1045.0' # можно указать нужную версию CLI
+          snyk-version: '1.1045.0'
 
       - name: Run Snyk test (SCA)
         run: snyk test --all-projects --severity-threshold=high --json > snyk-report.json || true

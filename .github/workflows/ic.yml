@@ -28,7 +28,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: '${{ github.workspace }}/islab1/target/*.jar'
+          path: '${{ github.workspace }}/target/*.jar'
 
       - name: Run SpotBugs (SAST) for islab1
         working-directory: ./lab1

@@ -38,18 +38,18 @@ jobs:
         with:
           name: spotbugs-report
           path: ./target/spotbugs.html
-      - name: Install Snyk
-        run: |
-          curl -sL https://snyk.io/install.sh | bash
+      - name: Set up Snyk
+        uses: snyk/actions/setup@master
+        with:
+          version: '1.1045.0' # можно указать нужную версию CLI
+
+      - name: Run Snyk test (SCA)
+        run: snyk test --all-projects --show-vulnerable-paths=all
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Run Snyk Test (SAST)
-        run: snyk test --all-projects
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
-      - name: Upload to Snyk Dashboard
-        run: snyk monitor --all-projects
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Upload Snyk report
+        uses: actions/upload-artifact@v4
+        with:
+          name: snyk-report
+          path: snyk-report.html

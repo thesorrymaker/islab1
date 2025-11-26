@@ -1,0 +1,41 @@
+name: Java CI with Security Scans
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build with Maven (lab1 only)
+        working-directory: ./lab1
+        run: mvn clean package -DskipTests
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-app
+          path: '${{ github.workspace }}/lab1/target/*.jar'
+
+      - name: Run SpotBugs (SAST) for lab1
+        working-directory: ./lab1
+        run: mvn spotbugs:spotbugs
+
+      - name: Upload SpotBugs report
+        uses: actions/upload-artifact@v4
+        with:
+          name: spotbugs-report
+          path: lab1/target/spotbugs.html
